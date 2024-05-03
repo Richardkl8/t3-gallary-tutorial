@@ -1,6 +1,8 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import {auth} from "@clerk/nextjs/server";
+import {db} from "~/server/db";
+import {images} from "~/server/db/schema";
 
 const f = createUploadthing();
 
@@ -23,6 +25,11 @@ export const ourFileRouter = {
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
       console.log("Upload complete for userId:", metadata.userId);
+
+      await db.insert(images).values({
+        name: 'auto',
+        url: file.url
+      })
 
       console.log("file url", file.url);
 
