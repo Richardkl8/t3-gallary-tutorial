@@ -2,6 +2,7 @@ import 'server-only'
 import {db} from "~/server/db";
 import {auth} from "@clerk/nextjs/server";
 
+
 export async function getUserImages () {
 
   const user = auth();
@@ -14,4 +15,18 @@ export async function getUserImages () {
   })
 
   return images
+}
+
+export async function getImage (id: number) {
+  const user = auth();
+
+  if (!user.userId) throw new Error("Unauthorized");
+
+  const image = await db.query.images.findFirst({
+    where: (model, {eq}) => eq(model.id, id),
+  })
+
+  if (!image) throw new Error("Image not found");
+
+  return image
 }
