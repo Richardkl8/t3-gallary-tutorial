@@ -13,8 +13,9 @@ export default async function HomePage() {
 
         {images.map(({url, name}, index) => (
           <div key={name+index}>
-            <img className='w-48 h-48 object-cover' src={url} alt={'sdf'}/>
-            <p>{name}</p>
+            <img className={'object-cover w-96 h-96'}
+             src={url} alt={'sdf'}/>
+            <p className={'w-96 text-xl'}>{name}</p>
           </div>))}
       </div>
     </main>
